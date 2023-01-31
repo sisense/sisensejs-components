@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<script type="module" src="./lib/sjs/sjs.esm.js"></script>
+<script>
+  const filterSets = [
+    [{
+      'dim': '[Customers.Country]',
+      'filter': { all: true }
+    }],
+    [{
+      'dim': '[Customers.Country]',
+      'filter': { 'members': ['USA'] }
+    }],
+  ]
+
+  let filterSetIndex = 0;
+
+  function toggleFilters() {
+    const dash = document.querySelector('sisense-dashboard');
+
+    dash.applyFilters(filterSets[++filterSetIndex % filterSets.length])
+  }
+
+  let angle = 0;
+
+  async function rotateHighcharts() {
+
+    const widget = document.querySelector('sisense-widget#pie');
+    const hc = await widget.getHighchartsChart();
+    const startAngle = angle;
+
+    const timer = setInterval(() => {
+      hc?.update?.({ plotOptions: { pie: { startAngle: ++angle % 360 }}});
+
+      if (angle - startAngle >= 30) {
+        clearInterval(timer);
+      }
+    }, 100);
+  }
+
+  window.onload = () => {
+    const widget = document.querySelector('sisense-widget#pie');
+    console.log('widget', widget);
+
+    widget.addEventListener('processResult', (event) => {
+      const { result } = event.detail;
+
+      const series = result["series"][0]["data"];
+
+      const colors = ["#b2b2f7", "#00cee6"];
+
+      series.forEach((s, i) => {
+        s["color"] = colors[i % colors.length];
+      });
+    })
+  }
+
+</script>
+<button onclick="toggleFilters()">Toggle Filters</button>
+<button onclick="rotateHighcharts()">Rotate Highchart</button>
+<sisense-app url="https://example.com">
+  <sisense-dashboard oid="{dashboard_id}">
+    <sisense-widget oid="{widget_id_1}"></sisense-widget>
+    <sisense-widget id="pie" oid="{widget_id_2}"></sisense-widget>
+  </sisense-dashboard>
+</sisense-app>
+</body>
+</html>

@@ -1,0 +1,48 @@
+{
+  "name": "@sisense/sjs-react",
+  "sideEffects": false,
+  "version": "0.0.9",
+  "description": "A component-based way to embed SisenseJS into your React application.",
+  "author": "Sisense Inc. <github@sisense.com> (https://www.sisense.com/)",
+  "scripts": {
+    "build": "yarn run clean && yarn run compile",
+    "dev.react": "yarn run build",
+    "clean": "rm -rf dist",
+    "compile": "yarn run tsc",
+    "tsc": "tsc -p .",
+    "rollup": "rollup -c"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/"
+  ],
+  "devDependencies": {
+    "@types/jest": "^27.0.3",
+    "@types/node": "^15.12.2",
+    "@types/react": "^17.0.34",
+    "@types/react-dom": "^17.0.11",
+    "jest": "^27.4.5",
+    "jest-dom": "^3.0.2",
+    "np": "^3.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^4.8.3"
+  },
+  "peerDependencies": {
+    "react": "17 - 18",
+    "react-dom": "17 - 18"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "setupTestFrameworkScriptFile": "<rootDir>/jest.setup.js",
+    "testPathIgnorePatterns": [
+      "node_modules",
+      "dist"
+    ]
+  },
+  "dependencies": {
+    "@sisense/sjs": "workspace:^"
+  }
+}
