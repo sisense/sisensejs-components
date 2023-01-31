@@ -1,0 +1,20 @@
+{
+  "name": "sisensejs-components-monorepo",
+  "packageManager": "yarn@3.2.3",
+  "private": true,
+  "scripts": {
+    "start": "yarn dev.react",
+    "lint": "yarn workspace @sisense/sjs lint",
+    "test": "yarn workspace @sisense/sjs test",
+    "build": "yarn workspaces foreach -t run build",
+    "dev.react": "yarn workspaces foreach -pi run dev.react",
+    "version:check": "yarn version check",
+    "version:mark-for-bump": "yarn version check --interactive",
+    "version:apply-bump": "yarn version apply --all",
+    "version:bump": "yarn version:mark-for-bump && yarn version:apply-bump"
+  },
+  "workspaces": [
+    "examples/*",
+    "packages/*"
+  ]
+}

@@ -1,0 +1,23 @@
+name: publish-to-packages
+run-name: publishing to github packages
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - run: yarn --version
+      - run: yarn install
+      - run: yarn build
+      - run: ls -lha
+      - run: yarn config set npmPublishRegistry https://npm.pkg.github.com
+      - run: yarn config set npmAuthIdent "${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}"
+      - run: yarn workspace @sisense/sjs npm publish
+      - run: yarn workspace @sisense/sjs-react npm publish
+
