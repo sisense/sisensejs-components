@@ -37,7 +37,26 @@ For Yarn 2+:
 yarn config set npmScopes.sisense.npmRegistryServer "https://npm.pkg.github.com"
 ```
 
-#### Step 2B - Installing the package
+#### Step 2B - Adding Github packages authentication
+
+Create a personal access token with the `read:packages` permission. Then, edit your `.npmrc` file (or create it if missing) and:
+
+1. It already contains the line `@sisense:registry=https://npm.pkg.github.com` (should have been created by the previous step)
+1. Add the line: `//npm.pkg.github.com/:_authToken=TOKEN` (replacing `TOKEN` with your access token)
+1. Add the line: `always-auth=true`
+
+Your `.npmrc` should now contain:
+
+```
+@sisense:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=TOKEN
+always-auth=true
+```
+
+For more information, please refer to [Github Packages documentation](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#authenticating-to-github-packages)
+
+
+#### Step 2C - Installing the package
 
 Yarn:
 
