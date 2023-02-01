@@ -39,18 +39,20 @@ yarn config set npmScopes.sisense.npmRegistryServer "https://npm.pkg.github.com"
 
 #### Step 2B - Adding Github packages authentication
 
-Create a personal access token with the `read:packages` permission. Then, edit your `.npmrc` file (or create it if missing) and:
+Create a personal access token with the `read:packages` permission. Then, configurate your package manager to use the token to authenticate to Github packages. Replace `__YOUR_TOKEN__` with your access token below:
 
-1. It already contains the line `@sisense:registry=https://npm.pkg.github.com` (should have been created by the previous step)
-1. Add the line: `//npm.pkg.github.com/:_authToken=TOKEN` (replacing `TOKEN` with your access token)
-1. Add the line: `always-auth=true`
+For npm and Yarn classic:
 
-Your `.npmrc` should now contain:
-
+```sh
+npm config set always-auth true --userconfig .npmrc
+npm config set "//npm.pkg.github.com/:_authToken" "__YOUR_TOKEN__" --userconfig .npmrc
 ```
-@sisense:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=TOKEN
-always-auth=true
+
+For Yarn 2+:
+
+```sh
+yarn config set npmScopes.sisense.npmAlwaysAuth true
+yarn config set npmScopes.sisense.npmAuthIdent "__YOUR_TOKEN__"
 ```
 
 For more information, please refer to [Github Packages documentation](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry#authenticating-to-github-packages)
